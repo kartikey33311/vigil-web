@@ -110,14 +110,19 @@
           // background tab but do NOT stop Web Audio, so without this the music
           // keeps playing out of a tab the player has long since switched away
           // from - with no visible source to trace it back to.
-          document.addEventListener("visibilitychange", function () {
+          function applyAudioVisibility() {
             try {
               var ctx = instance.Module && instance.Module.WEBAudio
                      && instance.Module.WEBAudio.audioContext;
               if (!ctx) return;
               if (document.hidden) ctx.suspend(); else ctx.resume();
             } catch (e) { /* internals differ by Unity version; never break the page */ }
-          });
+          }
+          document.addEventListener("visibilitychange", applyAudioVisibility);
+          // Also apply once now: visibilitychange only fires on a CHANGE, so a page
+          // that finished loading while already in a background tab would otherwise
+          // start playing and never be told to stop.
+          applyAudioVisibility();
         }).catch(function (message) {
           errEl.style.display = "block";
           errEl.textContent = message;
