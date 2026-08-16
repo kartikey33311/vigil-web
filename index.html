@@ -106,6 +106,19 @@
           canvas.focus();
           canvas.addEventListener("click", function () { canvas.focus(); });
           document.querySelector("#fs").onclick = function () { instance.SetFullscreen(1); };
+
+          // Silence the game while its tab is hidden. Browsers throttle rAF in a
+          // background tab but do NOT stop Web Audio, so without this the music
+          // keeps playing out of a tab the player has long since switched away
+          // from - with no visible source to trace it back to.
+          document.addEventListener("visibilitychange", function () {
+            try {
+              var ctx = instance.Module && instance.Module.WEBAudio
+                     && instance.Module.WEBAudio.audioContext;
+              if (!ctx) return;
+              if (document.hidden) ctx.suspend(); else ctx.resume();
+            } catch (e) { /* internals differ by Unity version; never break the page */ }
+          });
         }).catch(function (message) {
           errEl.style.display = "block";
           errEl.textContent = message;
