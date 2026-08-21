@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Vigil — play in browser</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <meta name="description" content="Vigil — a co-operative survival horror game running in your browser. Restore the generators, reach extraction.">
+    <meta name="description" content="Vigil — survival horror in your browser. Two modes: restore the generators and reach extraction, or take all eight pages and escape the house.">
     <style>
       :root { --bg:#08090c; --ink:#e8e6e1; --dim:#8b8b93; --accent:#c8492f; }
       * { box-sizing: border-box; }
       html, body { margin:0; padding:0; height:100%; background:var(--bg); color:var(--ink);
         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; overflow:hidden; }
+      .modes { font-size: 0.82em; line-height: 1.7; opacity: 0.72; margin-top: 0.9em; }
+      .modes strong { font-weight: 600; letter-spacing: 0.06em; opacity: 0.95; }
 
       #bar { position:fixed; top:0; left:0; right:0; height:38px; display:flex; align-items:center;
         gap:16px; padding:0 14px; background:#0d0f14; border-bottom:1px solid #1c1f27; z-index:10; }
@@ -47,11 +49,15 @@
       <canvas id="unity-canvas" tabindex="-1"></canvas>
       <div id="load">
         <h1>VIGIL</h1>
-        <p>Restore the generators. Reach extraction.<br>Something is inside with you.</p>
+        <p>Two ways to not get out.<br>Something is inside with you in both.</p>
+        <p class="modes">
+          <strong>THE FACILITY</strong> — restore the generators, reach extraction.<br>
+          <strong>ESCAPE THE HOUSE</strong> — take all eight pages, then run for the front door.
+        </p>
         <div id="track"><div id="fill"></div></div>
         <p id="pct">loading 0%</p>
         <div id="keys">
-          WASD move · mouse look · SHIFT sprint · E interact (hold for some)<br>
+          WASD move · mouse look · SHIFT sprint · CTRL crouch · E interact (hold for some) · F flashlight<br>
           Click the game once so it takes keyboard focus · ESC releases the cursor<br>
           Single player — a browser tab cannot host co-op
         </div>
